@@ -2,22 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-int convertToBinary()
-{
-    char decimal_str[20];
-    printf("Entrez une valeur décimale : ");
-    scanf("%s", decimal_str);
-
-    for (int i = 0; i < strlen(decimal_str); i++) {
-        if (decimal_str[i] < '0' || decimal_str[i] > '9') {
-            printf("L'entrée n'est pas un nombre décimal valide.\n");
+// Vérification que le char n'a que des chiffres
+int verifChiffres(char str[]){
+    for (int i = 0; i < strlen(str); i++) {
+        if (str[i] < '0' || str[i] > '9') {
             return 1;
         }
     }
+    return 0;
+}
 
-    long long decimal = atoll(decimal_str);
+// Convertisseur 
+int * convertToBinary(char str[]){
 
-    printf("En binaire : ");
+    long long decimal = atoll(str);
+
     int binary[64];
     int i = 0;
 
@@ -33,16 +32,28 @@ int convertToBinary()
         i++;
     }
 
-    for (int j = i - 1; j >= 0; j--)
-    {
-        printf("%d", binary[j]);
-    }
-    printf("\n");
-    return 0;
+    return binary;
 }
 
 int main()
 {
-    convertToBinary();
+    char decimal_str[20];
+    printf("Entrez une valeur décimale : ");
+    scanf("%s", decimal_str);
+
+    if (verifChiffres(decimal_str) == 1){
+            printf("L'entrée n'est pas un nombre décimal valide.\n");
+    };
+
+    int * tabChar;
+    tabChar = convertToBinary(decimal_str);
+
+    printf("En binaire : ");
+    for (int j = 64; j >= 0; j--)
+    {
+        printf("%d", tabChar[j]);
+    }
+    printf("\n");
+
     return 0;
 }
