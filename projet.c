@@ -4,15 +4,14 @@
 
 int main()
 {
-    char decimal_str[20]; // Augmentez la taille si nécessaire
+    char decimal_str[20];
     printf("Entrez une valeur décimale : ");
     scanf("%s", decimal_str);
 
-    // Vérification de la validité de l'entrée
     for (int i = 0; i < strlen(decimal_str); i++) {
         if (decimal_str[i] < '0' || decimal_str[i] > '9') {
             printf("L'entrée n'est pas un nombre décimal valide.\n");
-            return 1; // Quitte le programme en cas d'entrée invalide
+            return 1;
         }
     }
 
