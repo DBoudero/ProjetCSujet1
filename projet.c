@@ -1,10 +1,22 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 int main()
 {
-    long long decimal;
+    char decimal_str[20]; // Augmentez la taille si nécessaire
     printf("Entrez une valeur décimale : ");
-    scanf("%lld", &decimal);
+    scanf("%s", decimal_str);
+
+    // Vérification de la validité de l'entrée
+    for (int i = 0; i < strlen(decimal_str); i++) {
+        if (decimal_str[i] < '0' || decimal_str[i] > '9') {
+            printf("L'entrée n'est pas un nombre décimal valide.\n");
+            return 1; // Quitte le programme en cas d'entrée invalide
+        }
+    }
+
+    long long decimal = atoll(decimal_str);
 
     printf("En binaire : ");
     int binary[64];
@@ -14,7 +26,7 @@ int main()
     {
         printf("%s", "0");
     }
-    
+
     while (decimal > 0)
     {
         binary[i] = decimal % 2;
