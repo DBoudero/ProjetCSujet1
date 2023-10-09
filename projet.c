@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main()
+int convertToBinary()
 {
     char decimal_str[20];
     printf("Entrez une valeur décimale : ");
@@ -38,6 +38,11 @@ int main()
         printf("%d", binary[j]);
     }
     printf("\n");
+    return 0;
+}
 
+int main()
+{
+    convertToBinary();
     return 0;
 }
