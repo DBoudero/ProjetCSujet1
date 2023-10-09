@@ -12,7 +12,23 @@ int verifChiffres(char str[]) {
     return 0;
 }
 
-// Convertisseur 
+// Convertisseur binaire to decimal
+
+int binaryToDecimal(const char binaryString[]) {
+    int decimalValue = 0;
+    int i = 0;
+    while (binaryString[i] != '\0') {
+        if (binaryString[i] != '0' && binaryString[i] != '1') {
+            printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
+            return -1; // Sortie en cas d'erreur
+        }
+        decimalValue = decimalValue * 2 + (binaryString[i] - '0');
+        i++;
+    }
+    return decimalValue;
+}
+
+// Convertisseur decimal to binaire
 void convertToBinary(char str[]) {
     long long decimal = atoll(str);
 
@@ -41,13 +57,20 @@ int main() {
     char decimal_str[20];
     printf("Entrez une valeur décimale : ");
     scanf("%s", decimal_str);
-
     if (verifChiffres(decimal_str) == 1) {
         printf("L'entrée n'est pas un nombre décimal valide.\n");
         return 1; // Quitter avec une erreur
     }
-
     convertToBinary(decimal_str);
+
+    char binaire_str[20];
+    printf("Entrez une valeur binaire : ");
+    scanf("%s", binaire_str);
+    if (verifChiffres(binaire_str) == 1) {
+        printf("L'entrée n'est pas un nombre binaire valide.\n");
+        return 1; // Quitter avec une erreur
+    }
+    printf("%d\n",binaryToDecimal(binaire_str));
 
     return 0;
 }
