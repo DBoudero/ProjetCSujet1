@@ -152,10 +152,12 @@ int main()
             return 1;
         }
         int decimalValue;
-        if (binaryToDecimal(binaire_str, &decimalValue) != 0)
-        {
-            printf("En décimal : %d\n", decimalValue); // Déplacez cette ligne ici
-        } else { return 0; }
+        if (binaryToDecimal(binaire_str, &decimalValue) == -1){
+            return 0;
+        } else {
+            printf("En décimal : %d\n", decimalValue);
+        }
+        
     }
 
     return 0;
