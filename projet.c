@@ -16,7 +16,7 @@ int verifChiffres(char str[])
 }
 
 // Convertisseur binaire to decimal
-void binaryToDecimal(const char binaryString[], int *decimalValue)
+int binaryToDecimal(const char binaryString[], int *decimalValue)
 {
     *decimalValue = 0;
     int i = 0;
@@ -28,29 +28,27 @@ void binaryToDecimal(const char binaryString[], int *decimalValue)
             {
                 printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
                 *decimalValue = -1; // Sortie en cas d'erreur
-                return;
             }
             *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
             i++;
         }
-        printf("En décimal : %d\n", *decimalValue); // Déplacez cette ligne ici
+        return *decimalValue;
     }
     else
     {
         printf("Rentrer un nombre binaire sur 16 bits\n");
+        return 0;
     }
 }
 
 // Convertisseur decimal to binaire
-void convertToBinary(char str[])
+int convertToBinary(char str[])
 {
-
     long long decimal = atoll(str);
 
     if (decimal == 0)
     {
         printf("En binaire : 0\n");
-        return;
     }
 
     int binary[64];
@@ -71,10 +69,19 @@ void convertToBinary(char str[])
             printf("%d", binary[j]);
         }
         printf("\n");
+
+        // Retourne la valeur binaire calculée sous forme d'entier
+        int binaryValue = 0;
+        for (int j = i - 1, k = 0; j >= 0; j--, k++)
+        {
+            binaryValue += binary[j] * (1 << k);
+        }
+        return binaryValue;
     }
     else
     {
         printf("Rentrer un decimal sur 16 bits, moins de 65 535\n");
+        return -1; // Retourner une valeur d'erreur
     }
 }
 
@@ -101,7 +108,7 @@ int main()
     }
     else if (choix == 2)
     {
-        char binaire_str[20];
+        char binaire_str[16];
         printf("Entrez une valeur binaire : ");
         scanf("%s", binaire_str);
         if (verifChiffres(binaire_str) == 1)
@@ -110,7 +117,10 @@ int main()
             return 1;
         }
         int decimalValue;
-        binaryToDecimal(binaire_str, &decimalValue);
+        if (binaryToDecimal(binaire_str, &decimalValue) != 0 ) {
+            printf("En décimal : %d\n", decimalValue); // Déplacez cette ligne ici
+        }
     }
+    
     return 0;
 }
