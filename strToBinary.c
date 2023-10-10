@@ -2,12 +2,13 @@
 #include <string.h>
 
 //conversion decimal vers binaire
-void decimalToBinary(int nbr, int binaire[17]) {
+int decimalToBinary(int nbr, int binaire[17]) {
     int i;
     for (i = 0; i < 16; i++) {
         binaire[i] = nbr % 2;
         nbr /= 2;
     }
+    return ( binaire );
 }
 
 // conversion inverse 
@@ -32,12 +33,12 @@ int main() {
      scanf("%d", &nbr);
 
      int binaire[17];
-     decimalToBinary(nbr, binaire);
+     int binaryResult = decimalToBinary(nbr, binaire);
 
-     printf("Decimal to Binary: ");
-     for (int i = 0; i < 16; i++) {
-         printf("%d", binaire[i]);
-     }
+    printf("Decimal to Binary: ");
+      for (int i = 0; i < 16; i++) {
+          printf("%d", binaire[i]);
+      }
     printf("\n");
 
     char binaryInput[17]; // Le +1 pour le caractère nul '\0'
