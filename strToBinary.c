@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 
 //conversion decimal vers binaire
 void decimalToBinary(int nbr, int binaire[17]) {
     int i;
-    for (i = 15; i >= 0; i--) {
+    for (i = 0; i < 16; i++) {
         binaire[i] = nbr % 2;
         nbr /= 2;
     }
@@ -12,14 +13,15 @@ void decimalToBinary(int nbr, int binaire[17]) {
 // conversion inverse 
 int binaryToDecimal(const char binaryString[]) {
     int decimalValue = 0;
-    int i = 0;
-    while (binaryString[i] != '\0') {
+    int length = strlen(binaryString);
+
+    for (int i = length - 1; i >= 0; i--) {
+
         if (binaryString[i] != '0' && binaryString[i] != '1') {
             printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
             return -1; // Sortie en cas d'erreur
         }
         decimalValue = decimalValue * 2 + (binaryString[i] - '0');
-        i++;
     }
     return decimalValue;
 }
