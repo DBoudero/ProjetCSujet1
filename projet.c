@@ -42,7 +42,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 }
 
 // Convertisseur decimal to binaire
-int convertToBinary(char str[])
+int decimalToBinary(char str[])
 {
     long long decimal = atoll(str);
 
@@ -104,7 +104,7 @@ int main()
             printf("L'entrée n'est pas un nombre décimal valide.\n");
             return 1; // Quitter avec une erreur
         }
-        convertToBinary(decimal_str);
+        decimalToBinary(decimal_str);
     }
     else if (choix == 2)
     {
