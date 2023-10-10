@@ -27,7 +27,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
             if (binaryString[i] != '0' && binaryString[i] != '1')
             {
                 printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
-                *decimalValue = -1; // Sortie en cas d'erreur
+                return -1;
             }
             *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
             i++;
@@ -109,10 +109,10 @@ int main()
             return 1;
         }
         int decimalValue;
-        if (binaryToDecimal(binaire_str, &decimalValue) != 0)
+        if (binaryToDecimal(binaire_str, &decimalValue) == 0)
         {
             printf("En décimal : %d\n", decimalValue); // Déplacez cette ligne ici
-        }
+        } else { return 0; }
     }
 
     return 0;
