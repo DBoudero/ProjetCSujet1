@@ -42,20 +42,20 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 }
 
 // Convertisseur decimal to binaire
-int decimalToBinary(char str[])
+char *decimalToBinary(char str[])
 {
     long long decimal = atoll(str);
 
     if (decimal == 0)
     {
-        printf("En binaire : 0\n");
+        return "En binaire : 0";
     }
-
-    int binary[64];
-    int i = 0;
 
     if (decimal <= 65535)
     {
+        int binary[64];
+        int i = 0;
+
         while (decimal > 0)
         {
             binary[i] = decimal % 2;
@@ -63,25 +63,17 @@ int decimalToBinary(char str[])
             i++;
         }
 
-        printf("En binaire : ");
+        char *binaryStr = (char *)malloc((i + 13) * sizeof(char));
+        snprintf(binaryStr, i + 13, "En binaire : ");
         for (int j = i - 1; j >= 0; j--)
         {
-            printf("%d", binary[j]);
+            snprintf(binaryStr + i - j + 12, 2, "%d", binary[j]);
         }
-        printf("\n");
-
-        // Retourne la valeur binaire calculée sous forme d'entier
-        int binaryValue = 0;
-        for (int j = i - 1, k = 0; j >= 0; j--, k++)
-        {
-            binaryValue += binary[j] * (1 << k);
-        }
-        return binaryValue;
+        return binaryStr;
     }
     else
     {
-        printf("Rentrer un decimal sur 16 bits, moins de 65 535\n");
-        return -1; // Retourner une valeur d'erreur
+        return "Rentrer un decimal sur 16 bits, moins de 65 535";
     }
 }
 
@@ -96,15 +88,15 @@ int main()
 
     if (choix == 1)
     {
-        char decimal_str[20];
-        printf("Entrez une valeur décimale : ");
-        scanf("%s", decimal_str);
-        if (verifChiffres(decimal_str) == 1)
-        {
-            printf("L'entrée n'est pas un nombre décimal valide.\n");
-            return 1; // Quitter avec une erreur
-        }
-        decimalToBinary(decimal_str);
+        char input[20];
+        printf("Entrez un nombre décimal : ");
+        scanf("%s", input);
+
+        char *result = decimalToBinary(input);
+        printf("%s\n", result);
+
+        free(result);
+        return 0;
     }
     else if (choix == 2)
     {
@@ -117,10 +109,11 @@ int main()
             return 1;
         }
         int decimalValue;
-        if (binaryToDecimal(binaire_str, &decimalValue) != 0 ) {
+        if (binaryToDecimal(binaire_str, &decimalValue) != 0)
+        {
             printf("En décimal : %d\n", decimalValue); // Déplacez cette ligne ici
         }
     }
-    
+
     return 0;
 }
