@@ -27,7 +27,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
             if (binaryString[i] != '0' && binaryString[i] != '1')
             {
                 printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
-                *decimalValue = -1; // Sortie en cas d'erreur
+                return -1;
             }
             *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
             i++;
@@ -155,25 +155,7 @@ int main()
         if (binaryToDecimal(binaire_str, &decimalValue) != 0)
         {
             printf("En décimal : %d\n", decimalValue); // Déplacez cette ligne ici
-        }
-    } else if (choix == 3)
-    {
-        char binaryStr1[16], binaryStr2[16];
-        printf("Entrez le premier nombre binaire : ");
-        scanf("%s", binaryStr1);
-        printf("Entrez le deuxième nombre binaire : ");
-        scanf("%s", binaryStr2);
-
-        if (verifChiffres(binaryStr1) == 1 || verifChiffres(binaryStr2) == 1)
-        {
-            printf("L'entrée n'est pas un nombre binaire valide.\n");
-            return 1;
-        }
-
-        char *result = soustraction(binaryStr1, binaryStr2);
-        printf("Résultat de la soustraction : %s\n", result);
-
-        free(result);
+        } else { return 0; }
     }
 
     return 0;
