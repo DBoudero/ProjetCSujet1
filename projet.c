@@ -88,11 +88,11 @@ int main()
 
     if (choix == 1)
     {
-        char input[20];
+        char decimal_str[20];
         printf("Entrez un nombre décimal : ");
-        scanf("%s", input);
+        scanf("%s", decimal_str);
 
-        char *result = decimalToBinary(input);
+        char *result = decimalToBinary(decimal_str);
         printf("%s\n", result);
 
         free(result);
