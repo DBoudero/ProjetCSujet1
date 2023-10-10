@@ -20,22 +20,31 @@ void binaryToDecimal(const char binaryString[], int *decimalValue)
 {
     *decimalValue = 0;
     int i = 0;
-    while (binaryString[i] != '\0')
+    if (strlen(binaryString) <= 16)
     {
-        if (binaryString[i] != '0' && binaryString[i] != '1')
+        while (binaryString[i] != '\0')
         {
-            printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
-            *decimalValue = -1; // Sortie en cas d'erreur
-            return;
+            if (binaryString[i] != '0' && binaryString[i] != '1')
+            {
+                printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
+                *decimalValue = -1; // Sortie en cas d'erreur
+                return;
+            }
+            *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
+            i++;
         }
-        *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
-        i++;
+        printf("En décimal : %d\n", *decimalValue); // Déplacez cette ligne ici
+    }
+    else
+    {
+        printf("Rentrer un nombre binaire sur 16 bits\n");
     }
 }
 
 // Convertisseur decimal to binaire
 void convertToBinary(char str[])
 {
+
     long long decimal = atoll(str);
 
     if (decimal == 0)
@@ -47,19 +56,26 @@ void convertToBinary(char str[])
     int binary[64];
     int i = 0;
 
-    while (decimal > 0)
+    if (decimal <= 65535)
     {
-        binary[i] = decimal % 2;
-        decimal = decimal / 2;
-        i++;
-    }
+        while (decimal > 0)
+        {
+            binary[i] = decimal % 2;
+            decimal = decimal / 2;
+            i++;
+        }
 
-    printf("En binaire : ");
-    for (int j = i - 1; j >= 0; j--)
-    {
-        printf("%d", binary[j]);
+        printf("En binaire : ");
+        for (int j = i - 1; j >= 0; j--)
+        {
+            printf("%d", binary[j]);
+        }
+        printf("\n");
     }
-    printf("\n");
+    else
+    {
+        printf("Rentrer un decimal sur 16 bits, moins de 65 535\n");
+    }
 }
 
 int main()
@@ -91,16 +107,10 @@ int main()
         if (verifChiffres(binaire_str) == 1)
         {
             printf("L'entrée n'est pas un nombre binaire valide.\n");
-            return 1; // Quitter avec une erreur
+            return 1;
         }
-        
         int decimalValue;
         binaryToDecimal(binaire_str, &decimalValue);
-
-        if (decimalValue != -1)
-        {
-            printf("En décimal : %d\n", decimalValue);
-        }
     }
     return 0;
 }
