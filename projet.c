@@ -202,6 +202,5 @@ int main()
         char *result = soustractionBinaire(binary_str1, binary_str2);
         printf("Résultat de la soustraction en binaire : %s\n", result);
     }
-
     return 0;
 }
