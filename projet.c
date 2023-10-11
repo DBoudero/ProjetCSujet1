@@ -79,20 +79,27 @@ char *decimalToBinary(char str[])
 
 char *soustractionBinaire(char binary1[], char binary2[])
 {
+    if (strlen(binary1) > 16 || strlen(binary2) > 16)
+    {
+        return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
+    }
+
     int len1 = strlen(binary1);
     int len2 = strlen(binary2);
 
     // Si les chaînes binaires sont de longueurs différentes, renvoyer une erreur
     if (len1 != len2)
     {
-        if (len1 > len2) {
+        if (len1 > len2)
+        {
             int difference = len1 - len2;
 
             // Allouer de la mémoire pour la nouvelle chaîne binaire
             char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char));
 
             // Remplir la partie initiale de la nouvelle chaîne avec des zéros
-            for (int i = 0; i < difference; i++) {
+            for (int i = 0; i < difference; i++)
+            {
                 nouveauBinary2[i] = '0';
             }
 
@@ -127,6 +134,15 @@ char *soustractionBinaire(char binary1[], char binary2[])
 
         // Écrire le résultat dans la chaîne de caractères
         result[i] = diff + '0';
+    }
+
+    // Vérifier si la dernière soustraction a généré une retenue
+    if (retenue == 1)
+    {
+        // Afficher un message pour indiquer que le résultat est négatif
+        printf("Le résultat est négatif.\n");
+
+        return NULL; // Renvoyer NULL pour indiquer un résultat invalide
     }
 
     result[len1] = '\0'; // Terminer la chaîne de caractères
@@ -165,9 +181,12 @@ int main()
             return 1;
         }
         int decimalValue;
-        if (binaryToDecimal(binaire_str, &decimalValue) == -1){
+        if (binaryToDecimal(binaire_str, &decimalValue) == -1)
+        {
             return 0;
-        } else {
+        }
+        else
+        {
             printf("En décimal : %d\n", decimalValue);
         }
     }
@@ -179,13 +198,6 @@ int main()
         scanf("%s", binary_str1);
         printf("Entrez un deuxième nombre binaire : ");
         scanf("%s", binary_str2);
-
-        // Vérifier que les entrées sont valides
-        if (verifChiffres(binary_str1) == 1 || verifChiffres(binary_str2) == 1)
-        {
-            printf("L'entrée n'est pas un nombre binaire valide.\n");
-            return 1;
-        }
 
         char *result = soustractionBinaire(binary_str1, binary_str2);
         printf("Résultat de la soustraction en binaire : %s\n", result);
