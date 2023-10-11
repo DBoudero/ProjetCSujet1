@@ -15,8 +15,22 @@ int verifChiffres(char str[])
     return 0;
 }
 
+// Verification si tableau dépasse 16 bits
+int verifTableau16Bits(int tableau[16])
+{
+    for (int i = 0; i < 32; i++)
+    {
+        if (tableau[i] != 0) // Le tableau dépasse 16 bits si le reste n'est pas 0
+        {
+            //return 1;
+        }
+        printf("%d",tableau[i]);
+    }
+    return 0;
+}
+
 // Convertisseur binaire to decimal
-void binaryToDecimal(char binaryString[], int *decimalValue)
+int binaryToDecimal(const char binaryString[], int *decimalValue)
 {
     *decimalValue = 0;
     int i = 0;
@@ -28,36 +42,34 @@ void binaryToDecimal(char binaryString[], int *decimalValue)
             {
                 printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
                 *decimalValue = -1; // Sortie en cas d'erreur
-                return;
             }
             *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
             i++;
         }
-        printf("En décimal : %d\n", *decimalValue); // Déplacez cette ligne ici
+        return *decimalValue;
     }
     else
     {
         printf("Rentrer un nombre binaire sur 16 bits\n");
+        return 0;
     }
 }
 
 // Convertisseur decimal to binaire
-void convertToBinary(char str[])
+char *decimalToBinary(char str[])
 {
-
     long long decimal = atoll(str);
 
     if (decimal == 0)
     {
-        printf("En binaire : 0\n");
-        return;
+        return "En binaire : 0";
     }
-
-    int binary[64];
-    int i = 0;
 
     if (decimal <= 65535)
     {
+        int binary[64];
+        int i = 0;
+
         while (decimal > 0)
         {
             binary[i] = decimal % 2;
@@ -65,85 +77,56 @@ void convertToBinary(char str[])
             i++;
         }
 
-        printf("En binaire : ");
+        char *binaryStr = (char *)malloc((i + 13) * sizeof(char));
+        snprintf(binaryStr, i + 13, "En binaire : ");
         for (int j = i - 1; j >= 0; j--)
         {
-            printf("%d", binary[j]);
+            snprintf(binaryStr + i - j + 12, 2, "%d", binary[j]);
         }
-        printf("\n");
+        return binaryStr;
     }
     else
     {
-        printf("Rentrer un decimal sur 16 bits, moins de 65 535\n");
+        return "Rentrer un decimal sur 16 bits, moins de 65 535";
     }
 }
 
-void addition(char binaryString1[16], char binaryString2[16])
+void addition(int binary1[16], int binary2[16], int result[16])
 {
-    int i = 0;
-    char result[16];
     int retenue = 0;
 
-    while (binaryString1[i] != '\0' || binaryString2[i] != '\0')
+    for (int i = 0; i < 16; i++)
     {
+        int sum = binary1[i] + binary2[i] + retenue;
+        result[i] = sum % 2; // Stocke le bit de résultat dans le tableau
 
-        if (retenue == 0)
-        {
-            // les deux sont à 1
-            if (binaryString1[i] == 1 && binaryString2[i] == 1)
-            {
-                result[i] = 0;
-                retenue = 1;
-            }
-            //les deux sont à 0
-            else if (binaryString1[i] == 0 && binaryString2[i] == 0)
-            {
-                result[i] = '0';
-            }
-            else // un est a 1 et l'autre a 0
-            {
-                result[i] = '1';
-            }
-
-        }
-        else
-        {
-            // les deux sont à 1
-            if (binaryString1[i] == 1 && binaryString2[i] == 1)
-            {
-                result[i] = '1';
-                retenue = 1;
-            }
-            //les deux sont à 0
-            else if (binaryString1[i] == 0 && binaryString2[i] == 0)
-            {
-                result[i] = '1';
-                retenue = 0;
-            }
-            else // un est a 1 et l'autre a 0
-            {
-                result[i] = '0';
-                retenue = 1;
-            }
-        }
-        i++;
+        // Calcule la retenue pour la prochaine itération
+        retenue = sum / 2;
     }
 
-    printf("Resultat : ");
-    for (int j = 0; j <= 16; j++)
+    //Verif si le resultat est superieur dépasse 16 bits
+    if (!verifTableau16Bits(result))
     {
-        printf("%d", result[j]);
+        printf("Résultat trop grand pour 16 bits\n");
+        // Sortir de la fonction dès que le dépassement est détecté
     }
-    printf("\n");
 }
 
 int main()
 {
-    char str1[16] = {0, 1, 0, 1, 0, 1, 1, 1}; // 11101010 = 234
-    char str2[16] = {1, 1, 0, 0, 1, 0, 0, 1}; // 10010011 = 147
-    // Resultat 234 + 147 = 381
+    int str1[16] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; 
+    int str2[16] = {1};
+    
+    int resultat[16] = {};
 
-    addition(str1, str2);
+    addition(str1, str2, resultat);
+
+    printf("Résultat : ");
+    for (int j = 0; j < 16; j++)
+    {
+        printf("%d", resultat[j]);
+    }
+    printf("\n");
 
     /*
     int choix = 0;
@@ -157,14 +140,14 @@ int main()
     if (choix == 1)
     {
         char decimal_str[20];
-        printf("Entrez une valeur décimale : ");
+        printf("Entrez un nombre décimal : ");
         scanf("%s", decimal_str);
-        if (verifChiffres(decimal_str) == 1)
-        {
-            printf("L'entrée n'est pas un nombre décimal valide.\n");
-            return 1; // Quitter avec une erreur
-        }
-        convertToBinary(decimal_str);
+
+        char **(result) = decimalToBinary(decimal_str);
+        printf("%s\n", *(result));
+
+        free(*(result));
+        return 0;
     }
     else if (choix == 2)
     {
@@ -177,7 +160,10 @@ int main()
             return 1;
         }
         int decimalValue;
-        binaryToDecimal(binaire_str, &decimalValue);
+        if (binaryToDecimal(binaire_str, &decimalValue) != 0)
+        {
+            printf("En décimal : %d\n", decimalValue); // Déplacez cette ligne ici
+        }
     }
     */
     return 0;
