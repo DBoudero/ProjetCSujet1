@@ -77,7 +77,7 @@ char *decimalToBinary(char str[])
     }
 }
 
-char *soustractionBinaire(const char binary1[], const char binary2[])
+char *soustractionBinaire(char binary1[], char binary2[])
 {
     int len1 = strlen(binary1);
     int len2 = strlen(binary2);
@@ -85,7 +85,23 @@ char *soustractionBinaire(const char binary1[], const char binary2[])
     // Si les chaînes binaires sont de longueurs différentes, renvoyer une erreur
     if (len1 != len2)
     {
-        return "Les nombres binaires doivent avoir la même longueur pour effectuer une soustraction.";
+        if (len1 > len2) {
+            int difference = len1 - len2;
+
+            // Allouer de la mémoire pour la nouvelle chaîne binaire
+            char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char));
+
+            // Remplir la partie initiale de la nouvelle chaîne avec des zéros
+            for (int i = 0; i < difference; i++) {
+                nouveauBinary2[i] = '0';
+            }
+
+            // Copier le reste de la chaîne binaire d'origine
+            strcpy(nouveauBinary2 + difference, binary2);
+
+            // Affecter le pointeur du nouveau binary2 à binary2
+            binary2 = nouveauBinary2;
+        }
     }
 
     // Allouer de la mémoire pour le résultat
@@ -136,8 +152,6 @@ int main()
 
         char *result = decimalToBinary(decimal_str);
         printf("%s\n", result);
-
-        free(result);
         return 0;
     }
     else if (choix == 2)
@@ -175,8 +189,6 @@ int main()
 
         char *result = soustractionBinaire(binary_str1, binary_str2);
         printf("Résultat de la soustraction en binaire : %s\n", result);
-
-        free(result); // Libérer la mémoire allouée pour le résultat
     }
 
     return 0;
