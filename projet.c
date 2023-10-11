@@ -29,6 +29,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
                 printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
                 return -1;
             }
+            //Conversion du binaire en décimal en multipliant la valeur décimale actuelle par 2 et en ajoutant la valeur binaire du caractère actuel 
             *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
             i++;
         }
@@ -36,7 +37,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
     }
     else
     {
-        printf("Rentrer un nombre binaire sur 16 bits\n");
+        printf("Rentrer un nombre binaire sur 16 bits\n"); //Si la valeur rentrer est de plus de 16 bits
         return 0;
     }
 }
@@ -44,18 +45,20 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 // Convertisseur decimal to binaire
 char *decimalToBinary(char str[])
 {
-    long long decimal = atoll(str);
+    long long decimal = atoll(str); //convertie la valeur rentrer en nombre décimal de type long long
 
+    //Si le décimal est 0
     if (decimal == 0)
     {
         return "En binaire : 0";
     }
 
-    if (decimal <= 65535)
+    if (decimal <= 65535)//Verification que la valeur rentrer est inférieur ou égale à 65535 soit 16 bits
     {
         int binary[64];
-        int i = 0;
+        int i = 0;  
 
+        //Convertie en binaire en effectuant des divisions succéssif par 2
         while (decimal > 0)
         {
             binary[i] = decimal % 2;
@@ -63,8 +66,9 @@ char *decimalToBinary(char str[])
             i++;
         }
 
-        char *binaryStr = (char *)malloc((i + 13) * sizeof(char));
-        snprintf(binaryStr, i + 13, "En binaire : ");
+        char *binaryStr = (char *)malloc((i + 13) * sizeof(char)); //Alloue de la mémoire pour chaîne de caractères pour stocker représentation binaire.
+        snprintf(binaryStr, i + 13, "En binaire : "); //Prépare l'affichage avec "En binaire :"
+        //Ajoute à binaryStr, chaque bit calculé précédemment 
         for (int j = i - 1; j >= 0; j--)
         {
             snprintf(binaryStr + i - j + 12, 2, "%d", binary[j]);
@@ -73,26 +77,30 @@ char *decimalToBinary(char str[])
     }
     else
     {
+        //Si la valeur décimal dépasse 65535, soit 16 bits
         return "Rentrer un decimal sur 16 bits, moins de 65 535";
     }
 }
 
 char *soustractionBinaire(char binary1[], char binary2[])
 {
+    //Sécurité si l'un des deux nombre binaire rentré dépasse 16 bits
     if (strlen(binary1) > 16 || strlen(binary2) > 16)
     {
         return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
     }
 
+    //Variable contenant la taille de chacun chaine de caractère binaire
     int len1 = strlen(binary1);
     int len2 = strlen(binary2);
 
-    // Si les chaînes binaires sont de longueurs différentes, renvoyer une erreur
+    // Si les chaînes binaires ne sont pas de longueurs différentes
     if (len1 != len2)
     {
+        //Fait en sorte que si la 1er chaine de caractère est > que la 2eme alors on complète la 2eme avec des 0 devant pour que les 2 taille soit égale
         if (len1 > len2)
         {
-            int difference = len1 - len2;
+            int difference = len1 - len2; //Nombre de bits de différence entre les 2 chaines
 
             // Allouer de la mémoire pour la nouvelle chaîne binaire
             char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char));
@@ -143,6 +151,7 @@ char *soustractionBinaire(char binary1[], char binary2[])
 
 int main()
 {
+    //Menu de séléction des options
     int choix = 0;
     printf("|---------------------------------|\n");
     printf("|1 - Convertir Decimal to Binaire |\n");
@@ -153,7 +162,7 @@ int main()
 
     if (choix == 1)
     {
-        char decimal_str[20];
+        char decimal_str[16];
         printf("Entrez un nombre décimal : ");
         scanf("%s", decimal_str);
 
