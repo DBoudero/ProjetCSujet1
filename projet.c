@@ -77,44 +77,43 @@ char *decimalToBinary(char str[])
     }
 }
 
-char *soustraction(const char binaryStr1[], const char binaryStr2[])
+char *soustractionBinaire(const char binary1[], const char binary2[])
 {
-    int len1 = strlen(binaryStr1);
-    int len2 = strlen(binaryStr2);
+    int len1 = strlen(binary1);
+    int len2 = strlen(binary2);
 
-    // Vérification que les entrées sont de même longueur
+    // Si les chaînes binaires sont de longueurs différentes, renvoyer une erreur
     if (len1 != len2)
     {
-        return "Les nombres binaires doivent avoir la même longueur pour la soustraction.";
+        return "Les nombres binaires doivent avoir la même longueur pour effectuer une soustraction.";
     }
 
-    // Créer un tampon pour le résultat de la soustraction
+    // Allouer de la mémoire pour le résultat
     char *result = (char *)malloc((len1 + 1) * sizeof(char));
-    result[len1] = '\0'; // Terminer la chaîne avec un caractère nul
 
-    int carry = 0; // Retenue initiale
+    int retenue = 0;
     for (int i = len1 - 1; i >= 0; i--)
     {
-        int bit1 = binaryStr1[i] - '0';
-        int bit2 = binaryStr2[i] - '0';
+        int bit1 = binary1[i] - '0';
+        int bit2 = binary2[i] - '0';
 
-        // Effectuer la soustraction avec la retenue
-        int diff = bit1 - bit2 - carry;
-
-        // Si le résultat est négatif, ajouter 2 au résultat et définir la retenue
+        // Effectuer la soustraction en prenant en compte la retenue
+        int diff = bit1 - bit2 - retenue;
         if (diff < 0)
         {
             diff += 2;
-            carry = 1;
+            retenue = 1;
         }
         else
         {
-            carry = 0;
+            retenue = 0;
         }
 
-        // Convertir le résultat en caractère '0' ou '1' et le stocker dans le tampon de résultat
+        // Écrire le résultat dans la chaîne de caractères
         result[i] = diff + '0';
     }
+
+    result[len1] = '\0'; // Terminer la chaîne de caractères
 
     return result;
 }
@@ -157,7 +156,27 @@ int main()
         } else {
             printf("En décimal : %d\n", decimalValue);
         }
-        
+    }
+    else if (choix == 3)
+    {
+        char binary_str1[16];
+        char binary_str2[16];
+        printf("Entrez un premier nombre binaire : ");
+        scanf("%s", binary_str1);
+        printf("Entrez un deuxième nombre binaire : ");
+        scanf("%s", binary_str2);
+
+        // Vérifier que les entrées sont valides
+        if (verifChiffres(binary_str1) == 1 || verifChiffres(binary_str2) == 1)
+        {
+            printf("L'entrée n'est pas un nombre binaire valide.\n");
+            return 1;
+        }
+
+        char *result = soustractionBinaire(binary_str1, binary_str2);
+        printf("Résultat de la soustraction en binaire : %s\n", result);
+
+        free(result); // Libérer la mémoire allouée pour le résultat
     }
 
     return 0;
