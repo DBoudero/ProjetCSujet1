@@ -15,16 +15,16 @@ int verifChiffres(char str[])
     return 0;
 }
 
-// Convertisseur binaire to decimal
+// Convertisseur binaire en decimal
 int binaryToDecimal(const char binaryString[], int *decimalValue)
 {
     *decimalValue = 0;
     int i = 0;
-    if (strlen(binaryString) <= 16)
+    if (strlen(binaryString) <= 16) //On s'assure que la valeur binaire rentrer est de 16 bits maximum
     {
         while (binaryString[i] != '\0')
         {
-            if (binaryString[i] != '0' && binaryString[i] != '1')
+            if (binaryString[i] != '0' && binaryString[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
             {
                 printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
                 return -1;
