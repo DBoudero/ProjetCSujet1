@@ -94,8 +94,6 @@ int main()
 
         char *result = decimalToBinary(decimal_str);
         printf("%s\n", result);
-
-        free(result);
         return 0;
     }
     else if (choix == 2)
