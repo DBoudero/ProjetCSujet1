@@ -136,15 +136,6 @@ char *soustractionBinaire(char binary1[], char binary2[])
         result[i] = diff + '0';
     }
 
-    // Vérifier si la dernière soustraction a généré une retenue
-    if (retenue == 1)
-    {
-        // Afficher un message pour indiquer que le résultat est négatif
-        printf("Le résultat est négatif.\n");
-
-        return NULL; // Renvoyer NULL pour indiquer un résultat invalide
-    }
-
     result[len1] = '\0'; // Terminer la chaîne de caractères
 
     return result;
