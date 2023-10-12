@@ -45,6 +45,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 // Convertisseur decimal to binaire
 char *decimalToBinary(char str[])
 {
+    //Verification que la valeur rentrer est bien composé de chiffre
     for (int i = 0; i < strlen(str); i++)
     {
         if (str[i] < '0' || str[i] > '9')
