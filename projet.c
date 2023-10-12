@@ -99,6 +99,21 @@ char *soustractionBinaire(char binary1[], char binary2[])
         return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
     }
 
+    for (int i = 0; i < strlen(binary1); i++)
+    {
+        if (binary1[i] != '0' && binary1[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
+        {
+            return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
+        }
+    }
+    for (int i = 0; i < strlen(binary2); i++)
+    {
+        if (binary2[i] != '0' && binary2[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
+        {
+            return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
+        }
+    }
+
     //Variable contenant la taille de chacun chaine de caractère binaire
     int len1 = strlen(binary1);
     int len2 = strlen(binary2);
