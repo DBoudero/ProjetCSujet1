@@ -45,6 +45,14 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 // Convertisseur decimal to binaire
 char *decimalToBinary(char str[])
 {
+    for (int i = 0; i < strlen(str); i++)
+    {
+        if (str[i] < '0' || str[i] > '9')
+        {
+            return "Veuillez rentrer un nombre valide";
+        }
+    }
+    
     long long decimal = atoll(str); //convertie la valeur rentrer en nombre décimal de type long long
 
     //Si le décimal est 0
