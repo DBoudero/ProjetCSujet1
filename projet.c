@@ -120,45 +120,10 @@ char *additionBinaire(char binary1[16], char binary2[16])
     // Si les chaînes binaires ne sont pas de longueurs différentes
     if (len1 != len2)
     {
-        // Fait en sorte que si la 1er chaine de caractère est > que la 2eme alors on complète la 2eme avec des 0 devant pour que les 2 taille soit égale
-        if (len2 > len1)
-        {
-            int difference = len2 - len1; // Nombre de bits de différence entre les 2 chaines
-
-            // Allouer de la mémoire pour la nouvelle chaîne binaire
-            char *nouveauBinary1 = (char *)malloc((len2 + 1) * sizeof(char));
-
-            // Remplir la partie initiale de la nouvelle chaîne avec des zéros
-            for (int i = 0; i < difference; i++)
-            {
-                nouveauBinary1[i] = '0';
-            }
-
-            // Copier le reste de la chaîne binaire d'origine
-            strcpy(nouveauBinary1 + difference, binary1);
-
-            // Affecter le pointeur du nouveau binary2 à binary2
-            binary1 = nouveauBinary1;
-        }
-
-        if (len1 > len2)
-        {
-            int difference = len1 - len2; // Nombre de bits de différence entre les 2 chaines
-
-            // Allouer de la mémoire pour la nouvelle chaîne binaire
-            char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char));
-
-            // Remplir la partie initiale de la nouvelle chaîne avec des zéros
-            for (int i = 0; i < difference; i++)
-            {
-                nouveauBinary2[i] = '0';
-            }
-
-            // Copier le reste de la chaîne binaire d'origine
-            strcpy(nouveauBinary2 + difference, binary2);
-
-            // Affecter le pointeur du nouveau binary2 à binary2
-            binary2 = nouveauBinary2;
+        if(len1>len2){
+            binary2 = plusGrand(binary1, binary2);
+        } else {
+            binary1 = plusGrand(binary2, binary1);
         }
     }
 
@@ -200,47 +165,31 @@ char *soustractionBinaire(char binary1[], char binary2[])
         return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
     }
 
+    // Variable contenant la taille de chacun chaine de caractère binaire
+    int len1 = strlen(binary1);
+    int len2 = strlen(binary2);
+
+    if (len1 != len2)
+    {
+        if(len1>len2){
+            binary2 = plusGrand(binary1, binary2);
+        } else {
+            binary1 = plusGrand(binary2, binary1);
+        }
+    }
+
     for (int i = 0; i < strlen(binary1); i++)
     {
-        if (binary1[i] != '0' && binary1[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
+        if (binary1[i] != '0' && binary1[i] != '1') // On s'assure que la valeur rentrer ne contient que des 1 et des 0
         {
             return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
         }
     }
     for (int i = 0; i < strlen(binary2); i++)
     {
-        if (binary2[i] != '0' && binary2[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
+        if (binary2[i] != '0' && binary2[i] != '1') // On s'assure que la valeur rentrer ne contient que des 1 et des 0
         {
             return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
-        }
-    }
-
-    //Variable contenant la taille de chacun chaine de caractère binaire
-    int len1 = strlen(binary1);
-    int len2 = strlen(binary2);
-
-    // Si les chaînes binaires ne sont pas de longueurs différentes
-    if (len1 != len2)
-    {
-        // Fait en sorte que si la 1er chaine de caractère est > que la 2eme alors on complète la 2eme avec des 0 devant pour que les 2 taille soit égale
-        if (len1 > len2)
-        {
-            int difference = len1 - len2; // Nombre de bits de différence entre les 2 chaines
-
-            // Allouer de la mémoire pour la nouvelle chaîne binaire
-            char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char));
-
-            // Remplir la partie initiale de la nouvelle chaîne avec des zéros
-            for (int i = 0; i < difference; i++)
-            {
-                nouveauBinary2[i] = '0';
-            }
-
-            // Copier le reste de la chaîne binaire d'origine
-            strcpy(nouveauBinary2 + difference, binary2);
-
-            // Affecter le pointeur du nouveau binary2 à binary2
-            binary2 = nouveauBinary2;
         }
     }
 
