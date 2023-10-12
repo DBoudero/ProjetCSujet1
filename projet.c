@@ -149,6 +149,34 @@ char *soustractionBinaire(char binary1[], char binary2[])
     return result;
 }
 
+char *divisionBinaire(const char binaryNum1[], const char binaryNum2[]) {
+    // Conversion
+    int decimalNum1, decimalNum2;
+    binaryToDecimal(binaryNum1, &decimalNum1);
+    binaryToDecimal(binaryNum2, &decimalNum2);
+
+    // Division
+    if (decimalNum2 == 0) {
+        return "Division par zéro impossible";
+    } else {
+        int quotient = decimalNum1 / decimalNum2;
+
+        // On vérifie si le quotient est un nombre à virgule
+        if (decimalNum1 % decimalNum2 != 0) {
+            return "Résultat non entier, impossible de le représenter en binaire";
+        }
+
+        // Convertir le quotient en une chaîne de caractères pour conversion
+        char quotientStr[64];
+        snprintf(quotientStr, sizeof(quotientStr), "%d", quotient);
+
+        // Convertir le quotient en binaire
+        char *resultBinary = decimalToBinary(quotientStr);
+
+        return resultBinary;
+    }
+}
+
 int main()
 {
     //Menu de séléction des options
@@ -157,6 +185,7 @@ int main()
     printf("|1 - Convertir Decimal to Binaire |\n");
     printf("|2 - Convertir Binaire to Decimal |\n");
     printf("|3 - Soustraction Binaire         |\n");
+    printf("|4 - Division Binaire             |\n");
     printf("|---------------------------------|\n");
     scanf("%d", &choix);
 
@@ -201,6 +230,18 @@ int main()
 
         char *result = soustractionBinaire(binary_str1, binary_str2);
         printf("Résultat de la soustraction en binaire : %s\n", result);
+    }
+    else if (choix == 4)
+    {
+        char binary1[16];
+        char binary2[16];
+        printf("Entrez un premier nombre binaire : ");
+        scanf("%s", binary1);
+        printf("Entrez un deuxième nombre binaire : ");
+        scanf("%s", binary2);
+
+        char *result = divisionBinaire(binary1, binary2);
+        printf("Résultat de la division : %s\n", result);
     }
     return 0;
 }
