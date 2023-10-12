@@ -174,7 +174,7 @@ char *soustractionBinaire(char binary1[], char binary2[])
         if(len1>len2){
             binary2 = plusGrand(binary1, binary2);
         } else {
-            binary1 = plusGrand(binary1, binary2);
+            binary1 = plusGrand(binary2, binary1);
         }
     }
 
