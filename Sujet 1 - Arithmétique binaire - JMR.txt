@@ -7,3 +7,10 @@ chaîne de caractère et la transformer en binaire, ainsi que faire
 l'inverse : passer d'une valeur 16 bits en une valeur décimale sous
 forme de chaîne de caractères. Vous serez guidés tout au long du projet
 afin d'implanter ces opérations. Il faut coder le tout en C/C++.
+
+
+
+
+
+-> faire en sorte que la fonction to binary elle stock et que le binaire soit à l'envers
+-> faire en sorte que la fonction to decimal lise a l'envers ducoup
