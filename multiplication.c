@@ -41,7 +41,7 @@ void multiplicationBinaire(const int binaire1[], const int binaire2[], int resul
 }
 
 int main() {
-    int binaire1[16] = {1,1,1,1};
+    int binaire1[16] = {1,1,1,1,0};
     int binaire2[16] = {1,1,1};
     int resultat[16] = {};
     int erreur = 0;
