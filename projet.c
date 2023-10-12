@@ -15,6 +15,23 @@ int verifChiffres(char str[])
     return 0;
 }
 
+char *plusGrand(char binary1[], char binary2[])
+{
+    int len1 = strlen(binary1);
+    int len2 = strlen(binary2);
+    // Fait en sorte que si la 1er chaine de caractère est > que la 2eme alors on complète la 2eme avec des 0 devant pour que les 2 taille soit égale
+    int difference = len1 - len2;                                     // Nombre de bits de différence entre les 2 chaines
+    char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char)); // Allouer de la mémoire pour la nouvelle chaîne binaire
+    // Remplir la partie initiale de la nouvelle chaîne avec des zéros
+    for (int i = 0; i < difference; i++)
+    {
+        nouveauBinary2[i] = '0';
+    }
+    strcpy(nouveauBinary2 + difference, binary2); // Copier le reste de la chaîne binaire d'origine
+    binary2 = nouveauBinary2;                     // Affecter le pointeur du nouveau binary2 à binary2
+    return binary2;
+}
+
 // Convertisseur binaire en decimal
 int binaryToDecimal(const char binaryString[], int *decimalValue)
 {
