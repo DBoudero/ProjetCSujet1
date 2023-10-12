@@ -118,7 +118,7 @@ int main()
     }
     printf("\n");
 
-    /*
+    /* 
     int choix = 0;
     printf(" _________________________________ \n");
     printf("|                                 |\n");
