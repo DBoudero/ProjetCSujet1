@@ -1,29 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-void multiplicationBinaire(const int binaire1[], const int binaire2[], int resultat[], int *erreur) {
+char *multiplicationBinaire(const char binaire1[16], const char binaire2[16], int *erreur) {
     int taille = 16;
     int retenue = 0;
+    int resultat[32] = {0}; // Utiliser un tableau plus grand pour gérer les retenues potentielles
 
-//multiplication :
-    //Parcourir les deux tableaux de binaire
+    // Multiplication
     for (int i = 0; i < taille; i++) {
         for (int j = 0; j < taille; j++) {
-            //Stocke les resultat dans un tableau partiel
-            if (binaire1[i] == 1 && binaire2[j] == 1) {
+            if (binaire1[i] == '1' && binaire2[j] == '1') {
                 resultat[i + j] += 1;
 
-                // Verifie si il y a une retenue 
                 if (resultat[i + j] >= 2) {
                     retenue = 1;
-                    resultat[i + j] %= 2; // Calcul si le resultat est 1 ou 0
+                    resultat[i + j] %= 2;
                 }
             }
         }
     }
 
-//addition :
+    // Addition
     for (int i = 0; i < 16; i++) {
-
         resultat[i] += retenue;
 
         if (resultat[i] >= 2) {
@@ -31,32 +29,33 @@ void multiplicationBinaire(const int binaire1[], const int binaire2[], int resul
             retenue = 1;
 
             if (i == 15) {
-                *erreur = 1; // Marquer une erreur si le 16e bit est généré
+                *erreur = 1;
             }
-
         } else {
             retenue = 0;
         }
     }
+
+    // Construire la chaîne de caractères résultante
+    char *result = (char *)malloc(17); // Alloue 17 caractères pour 16 bits + 1 pour le caractère nul '\0'
+    for (int i = 0; i < 16; i++) {
+        result[i] = resultat[i] + '0'; // Convertit 0 ou 1 en caractère '0' ou '1'
+    }
+    result[16] = '\0'; // Caractère nul de fin de chaîne
+
+    return result;
 }
 
 int main() {
-    int binaire1[16] = {1,1,1,1,0};
-    int binaire2[16] = {1,1,1};
-    int resultat[16] = {};
+    char binary1[16] = "1010";
+    char binary2[16] = "1";
     int erreur = 0;
 
-    multiplicationBinaire(binaire1, binaire2, resultat, &erreur);
+    char *result = multiplicationBinaire(binary1, binary2, &erreur);
 
-    for (int i = 0; i < 16; i++) {
-        printf("%d", resultat[i]);
-    }
+    printf("Résultat : %s\n", result);
 
-    if (erreur) {
-        printf("\nErreur : Le résultat dépasse 16 bits.\n");
-    } else {
-        printf("\nAucune erreur détectée.\n");
-    }
+    free(result);
 
     return 0;
 }
