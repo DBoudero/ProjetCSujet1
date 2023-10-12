@@ -20,16 +20,16 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 {
     *decimalValue = 0;
     int i = 0;
-    if (strlen(binaryString) <= 16) //On s'assure que la valeur binaire rentrer est de 16 bits maximum
+    if (strlen(binaryString) <= 16) // On s'assure que la valeur binaire rentrer est de 16 bits maximum
     {
         while (binaryString[i] != '\0')
         {
-            if (binaryString[i] != '0' && binaryString[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
+            if (binaryString[i] != '0' && binaryString[i] != '1') // On s'assure que la valeur rentrer ne contient que des 1 et des 0
             {
                 printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
                 return -1;
             }
-            //Conversion du binaire en décimal en multipliant la valeur décimale actuelle par 2 et en ajoutant la valeur binaire du caractère actuel 
+            // Conversion du binaire en décimal en multipliant la valeur décimale actuelle par 2 et en ajoutant la valeur binaire du caractère actuel
             *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
             i++;
         }
@@ -37,7 +37,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
     }
     else
     {
-        printf("Rentrer un nombre binaire sur 16 bits\n"); //Si la valeur rentrer est de plus de 16 bits
+        printf("Rentrer un nombre binaire sur 16 bits\n"); // Si la valeur rentrer est de plus de 16 bits
         return 0;
     }
 }
@@ -45,7 +45,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 // Convertisseur decimal to binaire
 char *decimalToBinary(char str[])
 {
-    //Verification que la valeur rentrer est bien composé de chiffre
+    // Verification que la valeur rentrer est bien composé de chiffre
     for (int i = 0; i < strlen(str); i++)
     {
         if (str[i] < '0' || str[i] > '9')
@@ -53,21 +53,21 @@ char *decimalToBinary(char str[])
             return "Veuillez rentrer un nombre valide";
         }
     }
-    
-    long long decimal = atoll(str); //convertie la valeur rentrer en nombre décimal de type long long
 
-    //Si le décimal est 0
+    long long decimal = atoll(str); // convertie la valeur rentrer en nombre décimal de type long long
+
+    // Si le décimal est 0
     if (decimal == 0)
     {
         return "En binaire : 0";
     }
 
-    if (decimal <= 65535)//Verification que la valeur rentrer est inférieur ou égale à 65535 soit 16 bits
+    if (decimal <= 65535) // Verification que la valeur rentrer est inférieur ou égale à 65535 soit 16 bits
     {
         int binary[64];
-        int i = 0;  
+        int i = 0;
 
-        //Convertie en binaire en effectuant des divisions succéssif par 2
+        // Convertie en binaire en effectuant des divisions succéssif par 2
         while (decimal > 0)
         {
             binary[i] = decimal % 2;
@@ -75,9 +75,9 @@ char *decimalToBinary(char str[])
             i++;
         }
 
-        char *binaryStr = (char *)malloc((i + 13) * sizeof(char)); //Alloue de la mémoire pour chaîne de caractères pour stocker représentation binaire.
-        snprintf(binaryStr, i + 13, "En binaire : "); //Prépare l'affichage avec "En binaire :"
-        //Ajoute à binaryStr, chaque bit calculé précédemment 
+        char *binaryStr = (char *)malloc((i + 13) * sizeof(char)); // Alloue de la mémoire pour chaîne de caractères pour stocker représentation binaire.
+        snprintf(binaryStr, i + 13, "En binaire : ");              // Prépare l'affichage avec "En binaire :"
+        // Ajoute à binaryStr, chaque bit calculé précédemment
         for (int j = i - 1; j >= 0; j--)
         {
             snprintf(binaryStr + i - j + 12, 2, "%d", binary[j]);
@@ -86,60 +86,61 @@ char *decimalToBinary(char str[])
     }
     else
     {
-        //Si la valeur décimal dépasse 65535, soit 16 bits
+        // Si la valeur décimal dépasse 65535, soit 16 bits
         return "Rentrer un decimal sur 16 bits, moins de 65 535";
     }
 }
 
+char *plusGrand(char binary1[], char binary2[])
+{
+    int len1 = strlen(binary1);
+    int len2 = strlen(binary2);
+    // Fait en sorte que si la 1er chaine de caractère est > que la 2eme alors on complète la 2eme avec des 0 devant pour que les 2 taille soit égale
+    int difference = len1 - len2;                                     // Nombre de bits de différence entre les 2 chaines
+    char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char)); // Allouer de la mémoire pour la nouvelle chaîne binaire
+    // Remplir la partie initiale de la nouvelle chaîne avec des zéros
+    for (int i = 0; i < difference; i++)
+    {
+        nouveauBinary2[i] = '0';
+    }
+    strcpy(nouveauBinary2 + difference, binary2); // Copier le reste de la chaîne binaire d'origine
+    binary2 = nouveauBinary2;                     // Affecter le pointeur du nouveau binary2 à binary2
+    return binary2;
+}
+
 char *soustractionBinaire(char binary1[], char binary2[])
 {
-    //Sécurité si l'un des deux nombre binaire rentré dépasse 16 bits
+    // Sécurité si l'un des deux nombre binaire rentré dépasse 16 bits
     if (strlen(binary1) > 16 || strlen(binary2) > 16)
     {
         return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
     }
 
+    // Variable contenant la taille de chacun chaine de caractère binaire
+    int len1 = strlen(binary1);
+    int len2 = strlen(binary2);
+
+    if (len1 != len2)
+    {
+        if(len1>len2){
+            binary2 = plusGrand(binary1, binary2);
+        } else {
+            binary1 = plusGrand(binary1, binary2);
+        }
+    }
+
     for (int i = 0; i < strlen(binary1); i++)
     {
-        if (binary1[i] != '0' && binary1[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
+        if (binary1[i] != '0' && binary1[i] != '1') // On s'assure que la valeur rentrer ne contient que des 1 et des 0
         {
             return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
         }
     }
     for (int i = 0; i < strlen(binary2); i++)
     {
-        if (binary2[i] != '0' && binary2[i] != '1') //On s'assure que la valeur rentrer ne contient que des 1 et des 0
+        if (binary2[i] != '0' && binary2[i] != '1') // On s'assure que la valeur rentrer ne contient que des 1 et des 0
         {
             return "Entrée invalide. Veuillez entrer un nombre binaire valide.\n";
-        }
-    }
-
-    //Variable contenant la taille de chacun chaine de caractère binaire
-    int len1 = strlen(binary1);
-    int len2 = strlen(binary2);
-
-    // Si les chaînes binaires ne sont pas de longueurs différentes
-    if (len1 != len2)
-    {
-        //Fait en sorte que si la 1er chaine de caractère est > que la 2eme alors on complète la 2eme avec des 0 devant pour que les 2 taille soit égale
-        if (len1 > len2)
-        {
-            int difference = len1 - len2; //Nombre de bits de différence entre les 2 chaines
-
-            // Allouer de la mémoire pour la nouvelle chaîne binaire
-            char *nouveauBinary2 = (char *)malloc((len1 + 1) * sizeof(char));
-
-            // Remplir la partie initiale de la nouvelle chaîne avec des zéros
-            for (int i = 0; i < difference; i++)
-            {
-                nouveauBinary2[i] = '0';
-            }
-
-            // Copier le reste de la chaîne binaire d'origine
-            strcpy(nouveauBinary2 + difference, binary2);
-
-            // Affecter le pointeur du nouveau binary2 à binary2
-            binary2 = nouveauBinary2;
         }
     }
 
@@ -173,20 +174,25 @@ char *soustractionBinaire(char binary1[], char binary2[])
     return result;
 }
 
-char *divisionBinaire(const char binaryNum1[], const char binaryNum2[]) {
+char *divisionBinaire(const char binaryNum1[], const char binaryNum2[])
+{
     // Conversion
     int decimalNum1, decimalNum2;
     binaryToDecimal(binaryNum1, &decimalNum1);
     binaryToDecimal(binaryNum2, &decimalNum2);
 
     // Division
-    if (decimalNum2 == 0) {
+    if (decimalNum2 == 0)
+    {
         return "Division par zéro impossible";
-    } else {
+    }
+    else
+    {
         int quotient = decimalNum1 / decimalNum2;
 
         // On vérifie si le quotient est un nombre à virgule
-        if (decimalNum1 % decimalNum2 != 0) {
+        if (decimalNum1 % decimalNum2 != 0)
+        {
             return "Résultat non entier, impossible de le représenter en binaire";
         }
 
@@ -203,7 +209,7 @@ char *divisionBinaire(const char binaryNum1[], const char binaryNum2[]) {
 
 int main()
 {
-    //Menu de séléction des options
+    // Menu de séléction des options
     int choix = 0;
     printf("|---------------------------------|\n");
     printf("|1 - Convertir Decimal to Binaire |\n");
