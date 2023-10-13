@@ -62,7 +62,7 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 // Convertisseur decimal to binaire
 char *decimalToBinary(char str[])
 {
-    //Verification que la valeur rentrer est bien composé de chiffre
+    // Verification que la valeur rentrer est bien composé de chiffre
     for (int i = 0; i < strlen(str); i++)
     {
         if (str[i] < '0' || str[i] > '9')
@@ -120,9 +120,12 @@ char *additionBinaire(char binary1[16], char binary2[16])
     // Si les chaînes binaires ne sont pas de longueurs différentes
     if (len1 != len2)
     {
-        if(len1>len2){
+        if (len1 > len2)
+        {
             binary2 = plusGrand(binary1, binary2);
-        } else {
+        }
+        else
+        {
             binary1 = plusGrand(binary2, binary1);
         }
     }
@@ -171,9 +174,12 @@ char *soustractionBinaire(char binary1[], char binary2[])
 
     if (len1 != len2)
     {
-        if(len1>len2){
+        if (len1 > len2)
+        {
             binary2 = plusGrand(binary1, binary2);
-        } else {
+        }
+        else
+        {
             binary1 = plusGrand(binary2, binary1);
         }
     }
@@ -256,6 +262,70 @@ char *divisionBinaire(const char binaryNum1[], const char binaryNum2[])
     }
 }
 
+char *binaryDivision(char binary1[], char binary2[])
+{
+    // Variable contenant la taille de chaque chaîne de caractères binaires
+    int len1 = strlen(binary1);
+    int len2 = strlen(binary2);
+
+    // Trouver la position du bit le plus à gauche dans binary2
+    int position = 0;
+    while (position < len2 && binary2[position] == '0')
+    {
+        position++;
+    }
+
+    // Si binary2 est égal à zéro, la division est indéfinie
+    if (position == len2)
+    {
+        return "Division par zéro.\n";
+    }
+
+    // Allouer de la mémoire pour le résultat
+    char *quotient = (char *)malloc((len1 + 1) * sizeof(char));
+    char *remainder = (char *)malloc((len1 + 1) * sizeof(char));
+
+    // Initialiser le quotient et le reste
+    for (int i = 0; i < len1; i++)
+    {
+        quotient[i] = '0';
+        remainder[i] = binary1[i];
+    }
+    quotient[len1] = '\0';
+    remainder[len1] = '\0';
+
+    // Effectuer la division binaire
+    for (int i = 0; i < len1; i++)
+    {
+        // Décaler le reste vers la gauche
+        for (int j = len1 - 1; j > 0; j--)
+        {
+            remainder[j] = remainder[j - 1];
+        }
+        remainder[0] = binary1[i];
+
+        // Soustraction binaire
+        char *temp = soustractionBinaire(remainder, binary2);
+        
+        if (temp[0] == '0')
+        {
+            quotient[i] = '1';
+            free(remainder);
+            remainder = temp;
+        }
+        else
+        {
+            quotient[i] = '0';
+            free(temp);
+        }
+    }
+
+    // Libérer la mémoire allouée pour le reste
+    free(remainder);
+
+    return quotient;
+}
+
 int main()
 {
     // Menu de séléction des options
@@ -267,6 +337,7 @@ int main()
     printf("|3 - Soustraction Binaire         |\n");
     printf("|4 - Division Binaire             |\n");
     printf("|5 - Addition Binaire             |\n");
+    printf("|6 - Multiplication Binaire       |\n");
     printf("|_________________________________|\n");
     scanf("%d", &choix);
 
@@ -336,5 +407,18 @@ int main()
         char *result = additionBinaire(binary1, binary2);
         printf("Résultat de l'addition' : %s\n", result);
     }
+    //else if (choix == 6)
+    //{
+    //    char binary1[16];
+    //    char binary2[16];
+    //    printf("Entrez un premier nombre binaire : ");
+    //   scanf("%s", binary1);
+    //    printf("Entrez un deuxième nombre binaire : ");
+    //    scanf("%s", binary2);
+    //    int erreur = 0;
+    //    char *result = multiplicationBinaire(binary1, binary2, &erreur);
+    //    printf("Résultat : %s\n", result);
+    //}
+
     return 0;
-}
+}   
