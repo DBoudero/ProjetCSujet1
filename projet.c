@@ -18,11 +18,12 @@ int verifChiffres(char str[])
 // Vérification que le char n'a que des 1 et 0
 int verifBinaire(char str[])
 {
-    for (int i = 0; i<strlen(str); i++){
+    for (int i = 0; i < strlen(str); i++)
+    {
         if (str[i] != '0' && str[i] != '1')
         {
-        printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
-        return -1;
+            printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
+            return -1;
         }
     }
     return 0;
@@ -45,25 +46,26 @@ char *plusGrand(char binary1[], char binary2[])
     return binary2;
 }
 
+
+
+
 // Convertisseur binaire en decimal
-int binaryToDecimal(const char binaryString[], int *decimalValue)
+int binaryToDecimal(char binaryString[], int *decimalValue)
 {
     *decimalValue = 0;
     int i = 0;
     if (strlen(binaryString) <= 16) // On s'assure que la valeur binaire rentrer est de 16 bits maximum
     {
-        while (binaryString[i] != '\0')
+        if (verifBinaire(binaryString) == 0)
         {
-            if (binaryString[i] != '0' && binaryString[i] != '1') // On s'assure que la valeur rentrer ne contient que des 1 et des 0
+            while (binaryString[i] != '\0')
             {
-                printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
-                return -1;
+                // Conversion du binaire en décimal en multipliant la valeur décimale actuelle par 2 et en ajoutant la valeur binaire du caractère actuel
+                *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
+                i++;
             }
-            // Conversion du binaire en décimal en multipliant la valeur décimale actuelle par 2 et en ajoutant la valeur binaire du caractère actuel
-            *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
-            i++;
+            return *decimalValue;
         }
-        return *decimalValue;
     }
     else
     {
@@ -76,13 +78,11 @@ int binaryToDecimal(const char binaryString[], int *decimalValue)
 char *decimalToBinary(char str[])
 {
     // Verification que la valeur rentrer est bien composé de chiffre
-    for (int i = 0; i < strlen(str); i++)
+    if (verifChiffres(str)==1)
     {
-        if (str[i] < '0' || str[i] > '9')
-        {
-            return "Veuillez rentrer un nombre valide";
-        }
+        return "Veuillez rentrer un nombre valide";
     }
+    
 
     long long decimal = atoll(str); // convertie la valeur rentrer en nombre décimal de type long long
 
@@ -169,7 +169,6 @@ char *additionBinaire(char binary1[16], char binary2[16])
         else
             retenue = '0';
     }
-
     return result;
 }
 
@@ -299,17 +298,17 @@ int main()
         char *result = soustractionBinaire(binary_str1, binary_str2);
         printf("Résultat de la soustraction en binaire : %s\n", result);
     }
-    //else if (choix == 4)
+    // else if (choix == 4)
     //{
-    //    char binary1[16];
-    //    char binary2[16];
-    //    printf("Entrez un premier nombre binaire : ");
-    //    scanf("%s", binary1);
-    //    printf("Entrez un deuxième nombre binaire : ");
-    //    scanf("%s", binary2);
-    //    char *result = binaryDivision(binary1, binary2);
-    //    printf("Résultat de la division : %s\n", result);
-    //}
+    //     char binary1[16];
+    //     char binary2[16];
+    //     printf("Entrez un premier nombre binaire : ");
+    //     scanf("%s", binary1);
+    //     printf("Entrez un deuxième nombre binaire : ");
+    //     scanf("%s", binary2);
+    //     char *result = binaryDivision(binary1, binary2);
+    //     printf("Résultat de la division : %s\n", result);
+    // }
     else if (choix == 5)
     {
         char binary1[16];
@@ -322,18 +321,18 @@ int main()
         char *result = additionBinaire(binary1, binary2);
         printf("Résultat de l'addition' : %s\n", result);
     }
-    //else if (choix == 6)
+    // else if (choix == 6)
     //{
-    //    char binary1[16];
-    //    char binary2[16];
-    //    printf("Entrez un premier nombre binaire : ");
-    //   scanf("%s", binary1);
-    //    printf("Entrez un deuxième nombre binaire : ");
-    //    scanf("%s", binary2);
-    //    int erreur = 0;
-    //    char *result = multiplicationBinaire(binary1, binary2, &erreur);
-    //    printf("Résultat : %s\n", result);
-    //}
+    //     char binary1[16];
+    //     char binary2[16];
+    //     printf("Entrez un premier nombre binaire : ");
+    //    scanf("%s", binary1);
+    //     printf("Entrez un deuxième nombre binaire : ");
+    //     scanf("%s", binary2);
+    //     int erreur = 0;
+    //     char *result = multiplicationBinaire(binary1, binary2, &erreur);
+    //     printf("Résultat : %s\n", result);
+    // }
 
     return 0;
-}   
+}
