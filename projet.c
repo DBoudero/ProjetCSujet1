@@ -15,6 +15,19 @@ int verifChiffres(char str[])
     return 0;
 }
 
+// Vérification que le char n'a que des 1 et 0
+int verifBinaire(char str[])
+{
+    for (int i = 0; i<strlen(str); i++){
+        if (str[i] != '0' && str[i] != '1')
+        {
+        printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
+        return -1;
+        }
+    }
+    return 0;
+}
+
 char *plusGrand(char binary1[], char binary2[])
 {
     int len1 = strlen(binary1);
@@ -229,103 +242,6 @@ char *soustractionBinaire(char binary1[], char binary2[])
     return result;
 }
 
-char *divisionBinaire(const char binaryNum1[], const char binaryNum2[])
-{
-    // Conversion
-    int decimalNum1, decimalNum2;
-    binaryToDecimal(binaryNum1, &decimalNum1);
-    binaryToDecimal(binaryNum2, &decimalNum2);
-
-    // Division
-    if (decimalNum2 == 0)
-    {
-        return "Division par zéro impossible";
-    }
-    else
-    {
-        int quotient = decimalNum1 / decimalNum2;
-
-        // On vérifie si le quotient est un nombre à virgule
-        if (decimalNum1 % decimalNum2 != 0)
-        {
-            return "Résultat non entier, impossible de le représenter en binaire";
-        }
-
-        // Convertir le quotient en une chaîne de caractères pour conversion
-        char quotientStr[64];
-        snprintf(quotientStr, sizeof(quotientStr), "%d", quotient);
-
-        // Convertir le quotient en binaire
-        char *resultBinary = decimalToBinary(quotientStr);
-
-        return resultBinary;
-    }
-}
-
-char *binaryDivision(char binary1[], char binary2[])
-{
-    // Variable contenant la taille de chaque chaîne de caractères binaires
-    int len1 = strlen(binary1);
-    int len2 = strlen(binary2);
-
-    // Trouver la position du bit le plus à gauche dans binary2
-    int position = 0;
-    while (position < len2 && binary2[position] == '0')
-    {
-        position++;
-    }
-
-    // Si binary2 est égal à zéro, la division est indéfinie
-    if (position == len2)
-    {
-        return "Division par zéro.\n";
-    }
-
-    // Allouer de la mémoire pour le résultat
-    char *quotient = (char *)malloc((len1 + 1) * sizeof(char));
-    char *remainder = (char *)malloc((len1 + 1) * sizeof(char));
-
-    // Initialiser le quotient et le reste
-    for (int i = 0; i < len1; i++)
-    {
-        quotient[i] = '0';
-        remainder[i] = binary1[i];
-    }
-    quotient[len1] = '\0';
-    remainder[len1] = '\0';
-
-    // Effectuer la division binaire
-    for (int i = 0; i < len1; i++)
-    {
-        // Décaler le reste vers la gauche
-        for (int j = len1 - 1; j > 0; j--)
-        {
-            remainder[j] = remainder[j - 1];
-        }
-        remainder[0] = binary1[i];
-
-        // Soustraction binaire
-        char *temp = soustractionBinaire(remainder, binary2);
-        
-        if (temp[0] == '0')
-        {
-            quotient[i] = '1';
-            free(remainder);
-            remainder = temp;
-        }
-        else
-        {
-            quotient[i] = '0';
-            free(temp);
-        }
-    }
-
-    // Libérer la mémoire allouée pour le reste
-    free(remainder);
-
-    return quotient;
-}
-
 int main()
 {
     // Menu de séléction des options
@@ -383,18 +299,17 @@ int main()
         char *result = soustractionBinaire(binary_str1, binary_str2);
         printf("Résultat de la soustraction en binaire : %s\n", result);
     }
-    else if (choix == 4)
-    {
-        char binary1[16];
-        char binary2[16];
-        printf("Entrez un premier nombre binaire : ");
-        scanf("%s", binary1);
-        printf("Entrez un deuxième nombre binaire : ");
-        scanf("%s", binary2);
-
-        char *result = divisionBinaire(binary1, binary2);
-        printf("Résultat de la division : %s\n", result);
-    }
+    //else if (choix == 4)
+    //{
+    //    char binary1[16];
+    //    char binary2[16];
+    //    printf("Entrez un premier nombre binaire : ");
+    //    scanf("%s", binary1);
+    //    printf("Entrez un deuxième nombre binaire : ");
+    //    scanf("%s", binary2);
+    //    char *result = binaryDivision(binary1, binary2);
+    //    printf("Résultat de la division : %s\n", result);
+    //}
     else if (choix == 5)
     {
         char binary1[16];
