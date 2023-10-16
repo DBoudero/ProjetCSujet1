@@ -6,7 +6,7 @@ char *binaryDivision(char dividend[], char divisor[]) {
     int dividendLength = strlen(dividend);
     int divisorLength = strlen(divisor);
 
-    // Assurez-vous que les tableaux de caractères ont la bonne longueur
+    // tableau avec bonne taille
     if (dividendLength != 32) {
         int numZerosToAdd = 32 - dividendLength;
         char *temp = (char *)malloc((32 + 1) * sizeof(char));
@@ -35,7 +35,7 @@ char *binaryDivision(char dividend[], char divisor[]) {
 
     // Allouer de la mémoire pour le résultat
     char *quotient = (char *)malloc((16 + 1) * sizeof(char));
-    // Initialiser le quotient et le reste
+    // Initialiser le quotient
     for (int i = 0; i < 16; i++)
     {
         quotient[i] = '0';
@@ -44,7 +44,7 @@ char *binaryDivision(char dividend[], char divisor[]) {
 
     char tempDividend[33];  // 16 bits + 16 bits (poids faibles) + 1 pour le caractère nul
     strcpy(tempDividend, dividend);
-    //printf("%s\n",tempDividend);
+
     for (int i = 0; i < 16; i++) {
         // Décalage à gauche du Dividende et du Quotient
         for (int j = 0; j < 31; j++) {
