@@ -1,61 +1,49 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
-char *multiplicationBinaire(const char binaire1[16], const char binaire2[16], int *erreur) {
-    int taille = 16;
-    int retenue = 0;
-    int resultat[32] = {0}; // Utiliser un tableau plus grand pour gérer les retenues potentielles
-
-    // Multiplication
-    for (int i = 0; i < taille; i++) {
-        for (int j = 0; j < taille; j++) {
-            if (binaire1[i] == '1' && binaire2[j] == '1') {
-                resultat[i + j] += 1;
-
-                if (resultat[i + j] >= 2) {
-                    retenue = 1;
-                    resultat[i + j] %= 2;
-                }
+// Fonction pour multiplier deux nombres binaires
+char* multiplierBinaire(const char* binaire1, const char* binaire2) {
+    int longueur1 = strlen(binaire1);
+    int longueur2 = strlen(binaire2);
+    int longueurResultat = longueur1 + longueur2;
+    char* resultat = (char*)malloc(longueurResultat + 1);
+    
+    for (int i = 0; i < longueurResultat; i++) {
+        resultat[i] = '0';
+    }
+    resultat[longueurResultat] = '\0';
+    
+    for (int i = longueur1 - 1; i >= 0; i--) {
+        if (binaire1[i] == '1') {
+            int retenue = 0;
+            for (int j = longueur2 - 1; j >= 0; j--) {
+                int produit = (binaire2[j] - '0') * (binaire1[i] - '0') + (resultat[i + j + 1] - '0') + retenue;
+                retenue = produit / 2;
+                resultat[i + j + 1] = (produit % 2) + '0';
             }
+            resultat[i] = retenue + '0';
         }
     }
-
-    // Addition
-    for (int i = 0; i < 16; i++) {
-        resultat[i] += retenue;
-
-        if (resultat[i] >= 2) {
-            resultat[i] %= 2;
-            retenue = 1;
-
-            if (i == 15) {
-                *erreur = 1;
-            }
-        } else {
-            retenue = 0;
-        }
-    }
-
-    // Construire la chaîne de caractères résultante
-    char *result = (char *)malloc(17); // Alloue 17 caractères pour 16 bits + 1 pour le caractère nul '\0'
-    for (int i = 0; i < 16; i++) {
-        result[i] = resultat[i] + '0'; // Convertit 0 ou 1 en caractère '0' ou '1'
-    }
-    result[16] = '\0'; // Caractère nul de fin de chaîne
-
-    return result;
+    
+    return resultat;
 }
 
 int main() {
-    char binary1[16] = "1010";
-    char binary2[16] = "1";
-    int erreur = 0;
+    const char* binaire1 = "1010";
+    const char* binaire2 = "101";
 
-    char *result = multiplicationBinaire(binary1, binary2, &erreur);
+    char* resultat = multiplierBinaire(binaire1, binaire2);
 
-    printf("Résultat : %s\n", result);
+    // Supprimer les zéros non significatifs
+    int debut = 0;
+    while (resultat[debut] == '0' && resultat[debut + 1] != '\0') {
+        debut++;
+    }
 
-    free(result);
+    printf("Le résultat de la multiplication est : %s\n", &resultat[debut]);
+
+    free(resultat);
 
     return 0;
 }
