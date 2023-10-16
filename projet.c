@@ -241,6 +241,34 @@ char *soustractionBinaire(char binary1[], char binary2[])
     return result;
 }
 
+
+// Fonction pour multiplier deux nombres binaires
+char* multiplierBinaire(const char* binaire1, const char* binaire2) {
+    int longueur1 = strlen(binaire1);
+    int longueur2 = strlen(binaire2);
+    int longueurResultat = longueur1 + longueur2;
+    char* resultat = (char*)malloc(longueurResultat + 1);
+    
+    for (int i = 0; i < longueurResultat; i++) {
+        resultat[i] = '0';
+    }
+    resultat[longueurResultat] = '\0';
+    
+    for (int i = longueur1 - 1; i >= 0; i--) {
+        if (binaire1[i] == '1') {
+            int retenue = 0;
+            for (int j = longueur2 - 1; j >= 0; j--) {
+                int produit = (binaire2[j] - '0') * (binaire1[i] - '0') + (resultat[i + j + 1] - '0') + retenue;
+                retenue = produit / 2;
+                resultat[i + j + 1] = (produit % 2) + '0';
+            }
+            resultat[i] = retenue + '0';
+        }
+    }
+    
+    return resultat;
+}
+
 int main()
 {
     // Menu de séléction des options
@@ -321,18 +349,25 @@ int main()
         char *result = additionBinaire(binary1, binary2);
         printf("Résultat de l'addition' : %s\n", result);
     }
-    // else if (choix == 6)
-    //{
-    //     char binary1[16];
-    //     char binary2[16];
-    //     printf("Entrez un premier nombre binaire : ");
-    //    scanf("%s", binary1);
-    //     printf("Entrez un deuxième nombre binaire : ");
-    //     scanf("%s", binary2);
-    //     int erreur = 0;
-    //     char *result = multiplicationBinaire(binary1, binary2, &erreur);
-    //     printf("Résultat : %s\n", result);
-    // }
+    else if (choix == 6)
+    {
+        char binaire1[16];
+        char binaire2[16];
+        printf("Entrez un premier nombre binaire : ");
+        scanf("%s", binaire1);
+        printf("Entrez un deuxième nombre binaire : ");
+        scanf("%s", binaire2);
+
+    char* resultat = multiplierBinaire(binaire1, binaire2);
+
+    // Supprimer les zéros non significatifs
+    int debut = 0;
+    while (resultat[debut] == '0' && resultat[debut + 1] != '\0') {
+        debut++;
+    }
+    printf("Le résultat de la multiplication est : %s\n", &resultat[debut]);
+
+    free(resultat);
 
     return 0;
 }
