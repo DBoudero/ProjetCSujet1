@@ -64,8 +64,8 @@ int binaryToDecimal(char binaryString[], int *decimalValue)
                 *decimalValue = (*decimalValue) * 2 + (binaryString[i] - '0');
                 i++;
             }
-            return *decimalValue;
         }
+        return *decimalValue;
     }
     else
     {
@@ -468,6 +468,6 @@ int main()
     printf("Le résultat de la multiplication est : %s\n", &resultat[debut]);
 
     free(resultat);
-
+    }
     return 0;
 }
