@@ -48,7 +48,22 @@ char *plusGrand(char binary1[], char binary2[])
     return binary2;
 }
 
+// Fonction qui permet de formater les chaines avec "_"
+char *format(char binval[]) {
+    int len = strlen(binval);
+    char *formatted = (char *)malloc(len + 1);
 
+    int j = 0;
+    for (int i = 0; i < len; i++) {
+        if (binval[i] != '_') {
+            formatted[j] = binval[i];
+            j++;
+        }
+    }
+    formatted[j] = '\0';
+
+    return formatted;
+}
 
 
 // Fonction qui prend en entrée un tableau de char d'un nombre binaire et une variable int vide, et qui va traduire le nombre binaire et le retourner dans cette variable
