@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Vérification que le char n'a que des chiffres
+// Fonction qui prend en entrée un tableau de char et qui vérifie que le char n'a que des chiffres
 int verifChiffres(char str[])
 {
     for (int i = 0; i < strlen(str); i++)
@@ -15,7 +15,7 @@ int verifChiffres(char str[])
     return 0;
 }
 
-// Vérification que le char n'a que des 1 et 0
+// Fonction qui prend en entrée un tableau de char et qui vérifie que le char n'a que des 1 et 0
 int verifBinaire(char str[])
 {
     for (int i = 0; i < strlen(str); i++)
@@ -23,12 +23,14 @@ int verifBinaire(char str[])
         if (str[i] != '0' && str[i] != '1')
         {
             printf("Entrée invalide. Veuillez entrer un nombre binaire valide.\n");
-            return -1;
+            return 1;
         }
     }
     return 0;
 }
 
+// Fonction qui prend en entrée deux tableaux de char et qui vérifie si le deuxieme tableau a moins de chiffres que le premier, si c'est le cas
+// il renvoit le deuxieme tableau en complétant avec autant 0 qu'il faut pour être au meme nombre de chiffres que le premier
 char *plusGrand(char binary1[], char binary2[])
 {
     int len1 = strlen(binary1);
@@ -49,7 +51,7 @@ char *plusGrand(char binary1[], char binary2[])
 
 
 
-// Convertisseur binaire en decimal
+// Fonction qui prend en entrée un tableau de char d'un nombre binaire et une variable int vide, et qui va traduire le nombre binaire et le retourner dans cette variable
 int binaryToDecimal(char binaryString[], int *decimalValue)
 {
     *decimalValue = 0;
@@ -74,7 +76,7 @@ int binaryToDecimal(char binaryString[], int *decimalValue)
     }
 }
 
-// Convertisseur decimal to binaire
+// Fonction qui prend en entrée un tableau de char d'une valeur décimale et qui le retourne sous la forme binaire
 char *decimalToBinary(char str[])
 {
     // Verification que la valeur rentrer est bien composé de chiffre
@@ -121,6 +123,7 @@ char *decimalToBinary(char str[])
     }
 }
 
+// Fonction qui prend en entrée deux tableaux de char et qui retourne le resultat de leur addition
 char *additionBinaire(char binary1[16], char binary2[16])
 {
     // Création de la retenue (ex 1+1 = 10 donc on doit savoir que le prochain bit aura 1 de plus)
@@ -172,6 +175,7 @@ char *additionBinaire(char binary1[16], char binary2[16])
     return result;
 }
 
+// Fonction qui prend en entrée deux tableaux de char et qui retourne le resultat de leur soustraction
 char *soustractionBinaire(char binary1[], char binary2[])
 {
     // Sécurité si l'un des deux nombre binaire rentré dépasse 16 bits
@@ -242,7 +246,7 @@ char *soustractionBinaire(char binary1[], char binary2[])
 }
 
 
-// Fonction pour multiplier deux nombres binaires
+// Fonction qui prend en entrée deux tableaux de char et qui retourne le resultat de leur multiplication
 char* multiplierBinaire(const char* binaire1, const char* binaire2) {
     int longueur1 = strlen(binaire1);
     int longueur2 = strlen(binaire2);
@@ -269,6 +273,7 @@ char* multiplierBinaire(const char* binaire1, const char* binaire2) {
     return resultat;
 }
 
+// Fonction qui prend en entrée deux tableaux de char et qui retourne le resultat de leur division
 char *binaryDivision(char dividend[], char divisor[]) {
     int dividendLength = strlen(dividend);
     int divisorLength = strlen(divisor);
@@ -383,7 +388,7 @@ int main()
     printf("|6 - Multiplication Binaire       |\n");
     printf("|_________________________________|\n");
     scanf("%d", &choix);
-
+    
     if (choix == 1)
     {
         char decimal_str[16];
