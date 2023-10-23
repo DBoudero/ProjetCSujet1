@@ -2,10 +2,31 @@
 #include <string.h>
 #include <stdlib.h>
 
+// Fonction pour supprimer les underscores d'une chaîne
+void supprimerUnderscores(char* chaine) {
+    int i, j;
+    for (i = 0, j = 0; chaine[i] != '\0'; i++) {
+        if (chaine[i] != '_') {
+            chaine[j++] = chaine[i];
+        }
+    }
+    chaine[j] = '\0';
+}
+
 // Fonction pour multiplier deux nombres binaires
 char* multiplierBinaire(const char* binaire1, const char* binaire2) {
-    int longueur1 = strlen(binaire1);
-    int longueur2 = strlen(binaire2);
+    // Supprimer les underscores des entrées
+    char binaire1SansUnderscores[100];
+    char binaire2SansUnderscores[100];
+    
+    strncpy(binaire1SansUnderscores, binaire1, sizeof(binaire1SansUnderscores));
+    supprimerUnderscores(binaire1SansUnderscores);
+
+    strncpy(binaire2SansUnderscores, binaire2, sizeof(binaire2SansUnderscores));
+    supprimerUnderscores(binaire2SansUnderscores);
+
+    int longueur1 = strlen(binaire1SansUnderscores); // Utiliser la version sans underscores
+    int longueur2 = strlen(binaire2SansUnderscores);
     int longueurResultat = longueur1 + longueur2;
     char* resultat = (char*)malloc(longueurResultat + 1);
     
@@ -15,10 +36,10 @@ char* multiplierBinaire(const char* binaire1, const char* binaire2) {
     resultat[longueurResultat] = '\0';
     
     for (int i = longueur1 - 1; i >= 0; i--) {
-        if (binaire1[i] == '1') {
+        if (binaire1SansUnderscores[i] == '1') {
             int retenue = 0;
             for (int j = longueur2 - 1; j >= 0; j--) {
-                int produit = (binaire2[j] - '0') * (binaire1[i] - '0') + (resultat[i + j + 1] - '0') + retenue;
+                int produit = (binaire2SansUnderscores[j] - '0') * (binaire1SansUnderscores[i] - '0') + (resultat[i + j + 1] - '0') + retenue;
                 retenue = produit / 2;
                 resultat[i + j + 1] = (produit % 2) + '0';
             }
@@ -80,7 +101,7 @@ int main() {
     }
     resultatAvecUnderscores[i] = '\0';
 
-    printf("Le résultat de la multiplication sur 16 bits est : %s\n", resultatAvecUnderscores);
+    printf("Le résultat de la multiplication sur 16 bits avec des zéros à gauche et des underscores tous les 4 bits est : %s\n", resultatAvecUnderscores);
 
     free(resultat);
 
