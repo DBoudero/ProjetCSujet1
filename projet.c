@@ -416,16 +416,16 @@ int main()
     }
     else if (choix == 2)
     {
-        char binaire_str[16];
+        char binaire_str[19];
         printf("Entrez une valeur binaire : ");
         scanf("%s", binaire_str);
-        if (verifChiffres(binaire_str) == 1)
-        {
-            printf("L'entrée n'est pas un nombre binaire valide.\n");
-            return 1;
-        }
+        // if (verifChiffres(binaire_str) == 1)
+        // {
+        //     printf("L'entrée n'est pas un nombre binaire valide.\n");
+        //     return 1;
+        // }
         int decimalValue;
-        if (binaryToDecimal(binaire_str, &decimalValue) == -1)
+        if (binaryToDecimal(format(binaire_str), &decimalValue) == -1)
         {
             return 0;
         }
@@ -436,49 +436,49 @@ int main()
     }
     else if (choix == 3)
     {
-        char binary_str1[16];
-        char binary_str2[16];
+        char binary_str1[19];
+        char binary_str2[19];
         printf("Entrez un premier nombre binaire : ");
         scanf("%s", binary_str1);
         printf("Entrez un deuxième nombre binaire : ");
         scanf("%s", binary_str2);
 
-        char *result = soustractionBinaire(binary_str1, binary_str2);
+        char *result = soustractionBinaire(format(binary_str1), format(binary_str2));
         printf("Résultat de la soustraction en binaire : %s\n", result);
     }
     else if (choix == 4)
     {
-         char dividend[16];
-         char divisor[16];
+         char dividend[19];
+         char divisor[19];
          printf("Entrez un premier nombre binaire : ");
          scanf("%s", dividend);
          printf("Entrez un deuxième nombre binaire : ");
          scanf("%s", divisor);
-         char *res = binaryDivision(dividend, divisor);
+         char *res = binaryDivision(format(dividend), format(divisor));
          printf("Résultat de la division : %s\n", res);
     }
     else if (choix == 5)
     {
-        char binary1[16];
-        char binary2[16];
+        char binary1[19];
+        char binary2[19];
         printf("Entrez un premier nombre binaire : ");
         scanf("%s", binary1);
         printf("Entrez un deuxième nombre binaire : ");
         scanf("%s", binary2);
 
-        char *result = additionBinaire(binary1, binary2);
+        char *result = additionBinaire(format(binary1), format(binary2));
         printf("Résultat de l'addition' : %s\n", result);
     }
     else if (choix == 6)
     {
-        char binaire1[16];
-        char binaire2[16];
+        char binaire1[19];
+        char binaire2[19];
         printf("Entrez un premier nombre binaire : ");
         scanf("%s", binaire1);
         printf("Entrez un deuxième nombre binaire : ");
         scanf("%s", binaire2);
 
-    char* resultat = multiplierBinaire(binaire1, binaire2);
+    char* resultat = multiplierBinaire(format(binaire1), format(binaire2));
 
     // Supprimer les zéros non significatifs
     int debut = 0;
