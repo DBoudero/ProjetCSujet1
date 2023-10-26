@@ -50,20 +50,8 @@ char* multiplierBinaire(const char* binaire1, const char* binaire2) {
     return resultat;
 }
 
-
-int main() {
-    char binaire1[100];  // Vous pouvez ajuster la taille si nécessaire
-    char binaire2[100];
-
-    printf("Entrez le premier nombre binaire : ");
-    scanf("%s", binaire1);
-
-    printf("Entrez le deuxième nombre binaire : ");
-    scanf("%s", binaire2);
-
-    char* resultat = multiplierBinaire(binaire1, binaire2);
-
-    // Supprimer les zéros non significatifs
+// Fonction pour formater le résultat avec des zéros à gauche et des underscores tous les 4 bits
+char* formaterResultat(char* resultat) {
     int debut = 0;
     while (resultat[debut] == '0' && resultat[debut + 1] != '\0') {
         debut++;
@@ -101,9 +89,26 @@ int main() {
     }
     resultatAvecUnderscores[i] = '\0';
 
-    printf("Le résultat de la multiplication sur 16 bits avec des zéros à gauche et des underscores tous les 4 bits est : %s\n", resultatAvecUnderscores);
+    return strdup(resultatAvecUnderscores);
+}
+
+int main() {
+    char binaire1[100];  // Vous pouvez ajuster la taille si nécessaire
+    char binaire2[100];
+
+    printf("Entrez le premier nombre binaire : ");
+    scanf("%s", binaire1);
+
+    printf("Entrez le deuxième nombre binaire : ");
+    scanf("%s", binaire2);
+
+    char* resultat = multiplierBinaire(binaire1, binaire2);
+    char* resultatFormate = formaterResultat(resultat);
+
+    printf("Le résultat de la multiplication est : %s\n", resultatFormate);
 
     free(resultat);
+    free(resultatFormate);
 
     return 0;
 }
